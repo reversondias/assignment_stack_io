@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-deployment
+  name: app-deployment
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: app-deployment
+    spec:
+      containers:
+      - image: reverson/my_app:latest
+        name: app-metrics-deploy
+        env:
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-app-access
+                key: db-user
+          - name: DB_PASSWD
+            valueFrom:
+              secretKeyRef:
+                name: db-app-access
+                key: db-password
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: db-host
+                name: app-db-config
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                key: db-name
+                name: app-db-config
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: db-port
+                name: app-db-config
+        resources: 
+          limits:
+            cpu: "0.1"
+            memory: "256M"
+
