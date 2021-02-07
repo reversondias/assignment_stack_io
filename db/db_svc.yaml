@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db-psql-deploy
+  name: db-svc
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 543
+  selector:
+    app: db-psql-deploy
