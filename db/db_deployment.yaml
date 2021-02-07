@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db-psql-deploy
+  name: db-psql-deploy
+  namespace: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-psql-deploy
+  template:
+    metadata:
+      labels:
+        app: db-psql-deploy
+    spec:
+      containers:
+      - image: postgres:9.6-alpine
+        name: postgres
+        resources:
+          limits:
+            cpu: "1.5"
+            memory: "2G"
+          requests:
+            cpu: "0.5"
+            memory: "1G"
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-access
+                key: user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-access
+                key: password
+        ports:
+          - containerPort: 5432
+            name: psql-port
+            protocol: TCP
+        volumeMounts:
+          - mountPath: /opt/postgresql/data/pgdata
+            name: db-pv-volume
+      volumes:
+        - name: db-pv-volume
+          persistentVolumeClaim:
+            claimName: db-pvc
+            
+
