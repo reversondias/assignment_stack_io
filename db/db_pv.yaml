@@ -10,7 +10,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: /opt/db_pv
+    path: /opt
   nodeAffinity:
     required:
       nodeSelectorTerms:
