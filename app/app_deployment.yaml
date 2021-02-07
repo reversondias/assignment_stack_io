@@ -49,6 +49,10 @@ spec:
               configMapKeyRef:
                 key: db-port
                 name: app-db-config
+        ports:
+          - containerPort: 80
+            name: app-port
+            protocol: TCP
         resources: 
           limits:
             cpu: "0.1"
