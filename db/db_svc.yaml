@@ -4,6 +4,7 @@ metadata:
   labels:
     app: db-psql-deploy
   name: db-svc
+  namespace: db
 spec:
   ports:
   - port: 5432
